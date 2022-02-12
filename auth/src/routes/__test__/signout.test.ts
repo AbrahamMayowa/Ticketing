@@ -5,7 +5,8 @@ describe("Test signout", () => {
     await request(app).post("/api/users/signup").send({
       email: "Mayowa@gmail.com",
       password: "password",
-    });
+    })
+    .expect(201)
   });
 
   it("return a 400 with invalid password", async () => {
