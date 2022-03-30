@@ -62,7 +62,7 @@ router.post(
       status: order.status,
       userId: order.userId,
       expiresAt: order.expiresAt.toISOString(),
-      version: 8483848,
+      version: order.version,
       ticket: {
         id: ticket.id,
         price: ticket.price,
