@@ -5,10 +5,12 @@ import {
   NotFoundError,
   requireAuth,
   NotAuthorizedError,
+  BadRequestError,
 } from '@cygnetops/common';
 import { Ticket } from '../models/ticket';
 import { TicketUpdatedPublisher } from '../events/publishers/tickets-updated-publisher';
-import {natsWrapper} from '../nats-wrapper';
+import { natsWrapper } from '../nats-wrapper';
+
 const router = express.Router();
 
 router.put(
@@ -28,6 +30,10 @@ router.put(
       throw new NotFoundError();
     }
 
+    if (ticket.orderId) {
+      throw new BadRequestError('Cannot edit a reserved ticket');
+    }
+
     if (ticket.userId !== req.currentUser!.id) {
       throw new NotAuthorizedError();
     }
@@ -43,7 +49,7 @@ router.put(
       price: ticket.price,
       userId: ticket.userId,
       version: ticket.version,
-    })
+    });
 
     res.send(ticket);
   }
