@@ -9,8 +9,8 @@ declare global {
 let mongo: any;
 beforeAll(async () => {
   process.env.JWT_KEY = "asdfj";
-  mongo = await MongoMemoryServer.create();
-  const uri = mongo.getUri();
+  mongo = new MongoMemoryServer();
+  const uri = await mongo.getUri();
   await mongoose.connect(uri, {
     useNewUrlParser: true,
     useUnifiedTopology: true,
